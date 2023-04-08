@@ -2,10 +2,12 @@ package com.example.counteryquiz35;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         button4 = findViewById(R.id.button4);
         Collections.shuffle(questionList); // Перемешиваем элементы коллекции в случайном порядке
         questionList.toArray(questions); // превращаем обратно в массив
-        imageView.setImageResource(questions[questionIndex].getImageResId());
         ArrayList<Button> answerButtons = new ArrayList<>();
         answerButtons.add(button1);
         answerButtons.add(button2);
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void renderQuestion(ArrayList<Button> answerButtons){
+        imageView.setImageResource(questions[questionIndex].getImageResId());
         Collections.shuffle(answerButtons);
         for (int i = 0; i < answerButtons.size(); i++) {
             if(i == answerButtons.size()-1){
@@ -66,12 +68,34 @@ public class MainActivity extends AppCompatActivity {
                 answerButtons.get(i).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        checkAnswer(true);
+                        renderQuestion(answerButtons);
                     }
                 });
             }else{
                 answerButtons.get(i).setText(questions[random.nextInt(questions.length-1)].getCorrectAnswer());
+                answerButtons.get(i).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        checkAnswer(false);
+                        renderQuestion(answerButtons);
+                    }
+                });
             }
         }
     }
-}
+
+    public void checkAnswer(boolean btn){
+        if(btn){
+            Toast.makeText(MainActivity.this, "Правильно", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(MainActivity.this, "Не правильно", Toast.LENGTH_SHORT).show();
+        }
+        if(questionIndex == questions.length-1){
+            Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+            startActivity(intent);
+            questionIndex = 0;
+        }else{
+            questionIndex++;
+        }
+    }}
