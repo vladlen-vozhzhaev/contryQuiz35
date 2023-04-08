@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">counteryQuiz35</string>
+    <string name="ad">Андорра</string>
+    <string name="at">Австрия</string>
+    <string name="ae">ОАЭ</string>
+    <string name="az">Азербайджан</string>
+    <string name="al">Албания</string>
+    <string name="dz">Алжир</string>
+    <string name="br">Бразилия</string>
+    <string name="ru">Россия</string>
+    <string name="bt">Бутан</string>
+    <string name="va">Ватикан</string>
+</resources>
